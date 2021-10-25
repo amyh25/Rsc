@@ -54,7 +54,7 @@ qc_sce <- function(sce_obj, sample_var, threshold = 10) {
   sce_obj$is_outlier <- isOutlier(metric = sce_cell$total, 
                                   nmads = 2, type = "both", log = TRUE)
   sce_obj <- sce_obj[, !sce_obj$is_outlier]
-  sce_obj <- sce_obj[rowSums(counts(sce_obj) > 1) >= threshold, ]
+  sce_obj <- sce_obj[Matrix::rowSums(counts(sce_obj) > 1) >= threshold, ]
   
   return(sce_obj)
 }
@@ -74,7 +74,7 @@ seurat_to_sce <- function(so, split_var=NULL, sample_var, vars) {
   
   seurat_counts <- so@assays$RNA@counts
   seurat_metadata <- so@meta.data %>% 
-    dplyr::select(vars, sample_var)
+    dplyr::select(sample_var, vars)
   
   if (is.null(split_var)) {
     
