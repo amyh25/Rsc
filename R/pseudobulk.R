@@ -16,7 +16,7 @@ make_pseudobulk <- function(so, split_var = NULL, sample_var, vars) {
   if (is.null(split_var)) {
     
     groups <- colData(sce)[, c(sample_var, vars)]
-    pb <- aggregate.Matrix(t(counts(sce)), groupings = groups, fun = "sum")
+    pb <- aggregate.Matrix(Matrix::t(counts(sce)), groupings = groups, fun = "sum")
     return(pb)
         
   } else {
