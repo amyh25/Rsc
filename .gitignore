@@ -1,0 +1,10 @@
+# MacOS backups
+.DS_Store
+*~
+
+# R files
+.Rprofile
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
