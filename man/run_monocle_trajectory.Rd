@@ -6,6 +6,9 @@
 \usage{
 run_monocle_trajectory(so, reduction_method = "UMAP")
 }
+\arguments{
+\item{so}{seurat object}
+}
 \value{
 cell data set object
 }
