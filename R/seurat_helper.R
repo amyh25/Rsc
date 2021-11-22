@@ -24,6 +24,6 @@ set_idents <- function(so, ident) {
 #' @export
 
 set_assay <- function(so, assay) {
-  DefaultAssay(so) <- ident
+  DefaultAssay(so) <- assay
   return(so)
 }
