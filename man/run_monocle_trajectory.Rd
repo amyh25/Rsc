@@ -4,7 +4,12 @@
 \alias{run_monocle_trajectory}
 \title{run_monocle_trajectory}
 \usage{
-run_monocle_trajectory(so, reduction_method = "UMAP")
+run_monocle_trajectory(
+  so,
+  reduction_method = "UMAP",
+  use_partition = FALSE,
+  close_loop = FALSE
+)
 }
 \arguments{
 \item{so}{seurat object}

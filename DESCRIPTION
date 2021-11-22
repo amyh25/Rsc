@@ -17,4 +17,7 @@ Imports:
     scater, 
     Matrix.utils, 
     DESeq2, 
-    Seurat
+    Seurat, 
+    monocle3, 
+    SeuratWrappers, 
+    ComplexHeatmap
