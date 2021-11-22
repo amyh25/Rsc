@@ -23,7 +23,7 @@ set_idents <- function(so, ident) {
 #' @return Seurat object with default assay set to given assay
 #' @export
 
-set_idents <- function(so, assay) {
+set_assay <- function(so, assay) {
   DefaultAssay(so) <- ident
   return(so)
 }
