@@ -14,7 +14,7 @@ run_monocle_trajectory <- function(
   so %>% 
     as.cell_data_set() %>% 
     cluster_cells(reduction_method = reduction_method) %>% 
-    learn_graph(use_parition = use_partition, 
+    learn_graph(use_partition = use_partition, 
                 close_loop = close_loop) %>% 
     order_cells(reduction_method = reduction_method)
 }
