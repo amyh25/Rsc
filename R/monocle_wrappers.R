@@ -29,5 +29,7 @@ run_monocle_trajectory <- function(
 #' @export 
 
 add_pseudotime_metadata <- function(so, cds) {
-  as.data.frame(pseudotime(cds))
+  pt_df <- data.frame(pt = pseudotime(cds))
+  so <- AddMetaData(so, pt_df)
+  return(so)
 }
