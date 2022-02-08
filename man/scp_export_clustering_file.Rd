@@ -6,7 +6,8 @@
 \usage{
 scp_export_clustering_file(
   so,
-  str_subset_regex = "RNA_snn_res.",
+  str_subset_regex_group = "RNA_snn_res.",
+  str_subset_regex_numeric = "_RNA",
   output_dir,
   filename = "clustering_scp"
 )
@@ -14,7 +15,9 @@ scp_export_clustering_file(
 \arguments{
 \item{so}{Seurat object}
 
-\item{str_subset_regex}{regex string to select columns from Seurat object metadata (default: "RNA_snn_res.")}
+\item{str_subset_regex_group}{regex string to select columns from Seurat object metadata (default: "RNA_snn_res.")}
+
+\item{str_subset_regex_numeric}{regex string to select columns from Seurat object metadata (default: "_RNA")}
 
 \item{output_dir}{path to output directory}
 

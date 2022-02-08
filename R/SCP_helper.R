@@ -4,14 +4,16 @@
 #' https://singlecell.broadinstitute.org/single_cell
 #' 
 #' @param so Seurat object
-#' @param str_subset_regex regex string to select columns from Seurat object metadata (default: "RNA_snn_res.")
+#' @param str_subset_regex_group regex string to select columns from Seurat object metadata (default: "RNA_snn_res.")
+#' @param str_subset_regex_numeric regex string to select columns from Seurat object metadata (default: "_RNA")
 #' @param output_dir path to output directory
 #' @param filename export filename (default: "clustering_scp")
 #' @return Seurat object with identity set to given ident
 #' @export
 
 scp_export_clustering_file <- function(so, 
-                                       str_subset_regex = "RNA_snn_res.", 
+                                       str_subset_regex_group = "RNA_snn_res.", 
+                                       str_subset_regex_numeric = "_RNA", 
                                        output_dir, 
                                        filename = "clustering_scp") {
   
@@ -21,15 +23,18 @@ scp_export_clustering_file <- function(so,
     as_tibble(rownames = "cell") %>% 
     left_join(umap_coords, by = "cell")
   
-  other_cols_to_select <- str_subset(colnames(metadata_df), str_subset_regex)
+  other_cols_to_select_group <- str_subset(colnames(metadata_df), str_subset_regex_group)
+  other_cols_to_select_num <- str_subset(colnames(metadata_df), str_subset_regex_numeric)
   clustering_cols <- c(
     "NAME", "X", "Y", 
-    other_cols_to_select
+    other_cols_to_select_group, 
+    other_cols_to_select_num
   )
   
   clustering_types_vec <- c(
     "TYPE", "numeric", "numeric", 
-    rep("group", (length(other_cols_to_select)))
+    rep("group", (length(other_cols_to_select_group))), 
+    rep("numeric", (length(other_cols_to_select_num)))
   ) %>% set_names(clustering_cols)
   
   clustering_types_line <- paste0(clustering_types_vec, collapse = "\t")
