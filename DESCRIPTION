@@ -19,6 +19,6 @@ Imports:
     Matrix.utils, 
     DESeq2, 
     Seurat, 
-    monocle3, 
-    SeuratWrappers, 
     ComplexHeatmap
+Remotes: 
+    satijalab/seurat-wrappers
