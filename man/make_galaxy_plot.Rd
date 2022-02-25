@@ -4,10 +4,15 @@
 \alias{make_galaxy_plot}
 \title{make_galaxy_plot}
 \usage{
-make_galaxy_plot(.data, sample_n = 800, umap1 = "UMAP_1", umap2 = "UMAP_2")
+make_galaxy_plot(
+  metadata_df,
+  sample_n = 800,
+  umap1 = "UMAP_1",
+  umap2 = "UMAP_2"
+)
 }
 \arguments{
-\item{.data}{data frame with umap coordinates}
+\item{metadata_df}{data frame with umap coordinates}
 
 \item{sample_n}{number of cells to downsample to (optional; default: 800)}
 

@@ -4,7 +4,7 @@
 \alias{plot_prop}
 \title{plot_prop}
 \usage{
-plot_prop(prop_df, var, norm_var)
+plot_prop(prop_df, var, norm_var, col_position = "stack")
 }
 \arguments{
 \item{prop_df}{proportion data frame, usually the output of \code{calculate_proportion()}}
@@ -12,6 +12,8 @@ plot_prop(prop_df, var, norm_var)
 \item{var}{grouping var (for Seurat metadata, usually \code{clustering})}
 
 \item{norm_var}{var to normalize against (for Seurat metadata, usually \code{orig.ident})}
+
+\item{col_position}{position variable in geom_col (default: "stack"). Use ?geom_col to see other options}
 }
 \value{
 tibble with proportion and normalized proportion

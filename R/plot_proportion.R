@@ -37,16 +37,17 @@ calculate_proportion <- function(.data, var, norm_var) {
 #' @param prop_df proportion data frame, usually the output of `calculate_proportion()`
 #' @param var grouping var (for Seurat metadata, usually `clustering`)
 #' @param norm_var var to normalize against (for Seurat metadata, usually `orig.ident`)
+#' @param col_position position variable in geom_col (default: "stack"). Use ?geom_col to see other options
 #' @return tibble with proportion and normalized proportion
 #' @export
 
-plot_prop <- function(prop_df, var, norm_var) {
+plot_prop <- function(prop_df, var, norm_var, col_position = "stack") {
   var <- enquo(var)
   norm_var <- enquo(norm_var)
   prop_df %>% 
     ggplot() + 
     aes(!!norm_var, prop, fill = !!var) + 
-    geom_col() + 
+    geom_col(position = col_position) 
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
 }
 
@@ -62,14 +63,15 @@ plot_prop <- function(prop_df, var, norm_var) {
 #' @param prop_df proportion data frame, usually the output of `calculate_proportion()`
 #' @param var grouping var (for Seurat metadata, usually `clustering`)
 #' @param norm_var var to normalize against (for Seurat metadata, usually `orig.ident`)
+#' @param col_position position variable in geom_col (default: "stack"). Use ?geom_col to see other options
 #' @return tibble with proportion and normalized proportion
 #' @export
 #' 
-plot_norm_prop <- function(prop_df, var, norm_var) {
+plot_norm_prop <- function(prop_df, var, norm_var, col_position = "stack") {
   var <- enquo(var)
   norm_var <- enquo(norm_var)
   prop_df %>% 
     ggplot() + 
     aes(!!var, norm_prop, fill = !!norm_var) + 
-    geom_col() 
+    geom_col(position = col_position) 
 }
