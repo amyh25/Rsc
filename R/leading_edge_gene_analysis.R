@@ -39,6 +39,7 @@ get_leading_edge_df <- function(rank_vec, gs_vec) {
 #' 
 #' @param leading_edge_df dataframe output by get_leading_edge_df
 #' @param title string; title of gene set
+#' @param aes_color (optional; default `is_leading_edge`) var; color aesthetic 
 #' @param strwidth (optional; default 30) width of title strwrap
 #' @param save (optional) TRUE to save the plot to the output directory
 #' @param output_dir (optional) output directory if saving
@@ -46,7 +47,9 @@ get_leading_edge_df <- function(rank_vec, gs_vec) {
 #' @export
 
 plot_gsea_curve <- function(leading_edge_df, title, 
+                            aes_color = is_leading_edge, 
                             strwidth = 30, save = FALSE, output_dir = "") {
+  aes_color <- enquo(aes_color)
   
   pretty_title <- str_replace_all(title, "_", " ") %>% 
     str_wrap(width = strwidth)
@@ -57,10 +60,9 @@ plot_gsea_curve <- function(leading_edge_df, title,
   p <- leading_edge_df %>% 
     filter(in_gs) %>% 
     ggplot() + 
-    aes(rank, running_es, color = is_leading_edge) + 
+    aes(rank, running_es, color = !!aes_color) + 
     geom_hline(yintercept = 0) + 
-    geom_point(show.legend = FALSE) + 
-    scale_color_manual(values = boolean_palette) +
+    geom_point() + 
     labs(title = pretty_title, 
          subtitle = paste0(n_in_gs, " genes in gene set; ", 
                            n_leg, " leading edge genes") %>% 
@@ -69,6 +71,8 @@ plot_gsea_curve <- function(leading_edge_df, title,
          x = "Gene Rank") + 
     theme(axis.text.x = element_blank(), 
           axis.ticks.x = element_blank())
+  if (rlang::as_name(aes_color) == "is_leading_edge")
+    p <- p + scale_color_manual(values = boolean_palette) 
   
   if (save) {
     ggsave(file.path(output_dir, paste0("gsea.curve_", title, ".pdf")), 

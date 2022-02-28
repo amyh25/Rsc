@@ -7,6 +7,7 @@
 plot_gsea_curve(
   leading_edge_df,
   title,
+  aes_color = is_leading_edge,
   strwidth = 30,
   save = FALSE,
   output_dir = ""
@@ -16,6 +17,8 @@ plot_gsea_curve(
 \item{leading_edge_df}{dataframe output by get_leading_edge_df}
 
 \item{title}{string; title of gene set}
+
+\item{aes_color}{(optional; default \code{is_leading_edge}) var; color aesthetic}
 
 \item{strwidth}{(optional; default 30) width of title strwrap}
 
