@@ -1,3 +1,31 @@
+#' pca_gplot_scale
+#' 
+#' Plots PCA given a matrix with column names of variables
+#' 
+#' Function given to me by Deb Sen, credit goes to Kevin Bi
+#' 
+#' @param matrix Data matrix with column names
+#' @param sep Sep character in sample name
+#' @param nameindex Part of name that you want to plot
+#' @param dim1 PC component on x-axis
+#' @param dim2 PC component on y-axis
+#' @return 
+#' @export
+
+pca_gplot_scale <- function(matrix, sep, nameindex, dim1, dim2){
+  library(ggplot2)
+  pca_forplot <-  prcomp(t(matrix),center = TRUE, scale = T)
+  percent_variation <- (pca_forplot$sdev)^2 / sum(pca_forplot$sdev^2) *100
+  batch <-  unlist(lapply(strsplit(colnames(matrix),sep),function(x)x[[nameindex]]))
+  xvar <- percent_variation[dim1]
+  yvar <- percent_variation[dim2]
+  q <- qplot(pca_forplot$x[,dim1], pca_forplot$x[,dim2],colour=batch, 
+             xlab = paste("PC", dim1, " (", format(xvar, digits = 4), "% var)"), 
+             ylab = paste("PC", dim2, " (", format(yvar, digits = 4), "% var)"), 
+             size = I(3))
+  q + scale_color_discrete(name = "")
+}
+
 #' plot_gene_str
 #' 
 #' Plots genes, with points ordered by expression of gene value
@@ -104,14 +132,17 @@ make_umap_skeleton <- function(metadata_df,
 make_galaxy_plot <- function(metadata_df, 
                              sample_n = 800, 
                              umap1 = "UMAP_1", umap2 = "UMAP_2") {
-  data_sampled <- slice_sample(metadata_df, n = sample_n)
-  ggplot(metadata_df) +
+  if (sample_n != 0)
+    data_sampled <- slice_sample(metadata_df, n = sample_n)
+  retplot <- ggplot(metadata_df) +
     aes_string(umap1, umap2) + 
     stat_density_2d(aes(fill = ..density..), geom = 'raster', contour = FALSE) +
     scale_fill_viridis(option = "magma") +
     coord_cartesian(expand = FALSE, xlim = c(min(metadata_df[[umap1]]), max(metadata_df[[umap1]])),
-                    ylim = c(min(metadata_df[[umap2]]), max(metadata_df[[umap2]]))) + 
-    geom_point(shape = '.', col = 'white', data = data_sampled)
+                    ylim = c(min(metadata_df[[umap2]]), max(metadata_df[[umap2]]))) 
+  if (sample_n != 0) 
+    retplot <- retplot + geom_point(shape = '.', col = 'white', data = data_sampled)
+  return(retplot)
 }
 
 #' plot_binary_on_umap
