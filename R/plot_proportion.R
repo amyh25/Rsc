@@ -47,7 +47,7 @@ plot_prop <- function(prop_df, var, norm_var, col_position = "stack") {
   prop_df %>% 
     ggplot() + 
     aes(!!norm_var, prop, fill = !!var) + 
-    geom_col(position = col_position) 
+    geom_col(position = col_position) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
 }
 
