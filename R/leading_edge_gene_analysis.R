@@ -40,6 +40,7 @@ get_leading_edge_df <- function(rank_vec, gs_vec) {
 #' @param leading_edge_df dataframe output by get_leading_edge_df
 #' @param title string; title of gene set
 #' @param aes_color (optional; default `is_leading_edge`) var; color aesthetic 
+#' @param geom_type (optional; default "point") geom type, one of "point" or "line"
 #' @param strwidth (optional; default 30) width of title strwrap
 #' @param save (optional) TRUE to save the plot to the output directory
 #' @param output_dir (optional) output directory if saving
@@ -48,6 +49,7 @@ get_leading_edge_df <- function(rank_vec, gs_vec) {
 
 plot_gsea_curve <- function(leading_edge_df, title, 
                             aes_color = is_leading_edge, 
+                            geom_type = "point", 
                             strwidth = 30, save = FALSE, output_dir = "") {
   aes_color <- enquo(aes_color)
   
@@ -57,12 +59,19 @@ plot_gsea_curve <- function(leading_edge_df, title,
   n_in_gs <- nrow(leading_edge_df %>% filter(in_gs))
   n_leg <- nrow(leading_edge_df %>% filter(in_gs) %>% filter(is_leading_edge))
   
+  if (geom_type == "point") 
+    geom_func <- geom_point()
+  else if (geom_type == "line")
+    geom_func <- geom_line()
+  else
+    stop("Not a valid input for geom_type")
+  
   p <- leading_edge_df %>% 
     filter(in_gs) %>% 
     ggplot() + 
     aes(rank, running_es, color = !!aes_color) + 
     geom_hline(yintercept = 0) + 
-    geom_point() + 
+    geom_func + 
     labs(title = pretty_title, 
          subtitle = paste0(n_in_gs, " genes in gene set; ", 
                            n_leg, " leading edge genes") %>% 
