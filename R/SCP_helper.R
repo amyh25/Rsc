@@ -6,6 +6,7 @@
 #' @param so Seurat object
 #' @param str_subset_regex_group regex string to select columns from Seurat object metadata (default: "RNA_snn_res.")
 #' @param str_subset_regex_numeric regex string to select columns from Seurat object metadata (default: "_RNA")
+#' @param reduction_str string specifying name of reduction. Should match the parameter reduction.name from Seurat::RunUMAP (default: "umap")
 #' @param output_dir path to output directory
 #' @param filename export filename (default: "clustering_scp")
 #' @return Seurat object with identity set to given ident
@@ -14,10 +15,11 @@
 scp_export_clustering_file <- function(so, 
                                        str_subset_regex_group = "RNA_snn_res.", 
                                        str_subset_regex_numeric = "_RNA", 
+                                       reduction_str = "umap", 
                                        output_dir, 
                                        filename = "clustering_scp") {
   
-  umap_coords <- so@reductions$umap@cell.embeddings %>% 
+  umap_coords <- so@reductions[[reduction_str]]@cell.embeddings %>% 
     as_tibble(rownames = "cell")
   metadata_df <- so@meta.data %>% 
     as_tibble(rownames = "cell") %>% 

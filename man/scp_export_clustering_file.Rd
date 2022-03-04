@@ -8,6 +8,7 @@ scp_export_clustering_file(
   so,
   str_subset_regex_group = "RNA_snn_res.",
   str_subset_regex_numeric = "_RNA",
+  reduction_str = "umap",
   output_dir,
   filename = "clustering_scp"
 )
@@ -18,6 +19,8 @@ scp_export_clustering_file(
 \item{str_subset_regex_group}{regex string to select columns from Seurat object metadata (default: "RNA_snn_res.")}
 
 \item{str_subset_regex_numeric}{regex string to select columns from Seurat object metadata (default: "_RNA")}
+
+\item{reduction_str}{string specifying name of reduction. Should match the parameter reduction.name from Seurat::RunUMAP (default: "umap")}
 
 \item{output_dir}{path to output directory}
 
