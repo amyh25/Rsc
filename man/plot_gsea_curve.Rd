@@ -8,6 +8,7 @@ plot_gsea_curve(
   leading_edge_df,
   title,
   aes_color = is_leading_edge,
+  geom_type = "point",
   strwidth = 30,
   save = FALSE,
   output_dir = ""
@@ -19,6 +20,8 @@ plot_gsea_curve(
 \item{title}{string; title of gene set}
 
 \item{aes_color}{(optional; default \code{is_leading_edge}) var; color aesthetic}
+
+\item{geom_type}{(optional; default "point") geom type, one of "point" or "line"}
 
 \item{strwidth}{(optional; default 30) width of title strwrap}
 
