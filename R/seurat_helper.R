@@ -61,3 +61,36 @@ get_gene_expr_from_so <- function(so, gene_vec, assay = "RNA") {
     as_tibble(rownames = "cell")
 }
 
+
+#' pivot_FindAllMarkers_wider
+#' 
+#' Takes output of `FindAllMarkers`, filters down to significant genes, 
+#' then builds a wide table of top markers for each ident specified
+#' 
+#' @param markers Seurat object
+#' @param pval pval var (default: p_val_adj)
+#' @param pval_thresh p value filtering threshold (default: 0.05)
+#' @param log2FC log2 fold change var (default: avg_log2FC)
+#' @param ident identity var (default: cluster)
+#' @return tibble of top markers per ident, all genes meeting p-value threshold, ordered by top log2FC
+#' @export
+
+pivot_FindAllMarkers_wider <- function(markers, 
+                                       pval = p_val_adj, 
+                                       pval_thresh = 0.05, 
+                                       log2FC = avg_log2FC, 
+                                       ident = cluster) {
+  pval <- enquo(pval)
+  log2FC <- enquo(avg_log2FC)
+  ident <- enquo(ident)
+  markers %>% 
+    filter(!!pval < pval_thresh) %>% 
+    arrange(desc(!!log2FC)) %>% 
+    group_by(!!ident) %>% 
+    mutate(rank = row_number()) %>% 
+    arrange(!!ident) %>% 
+    pivot_wider(id_cols = rank, 
+                names_from = !!ident, 
+                values_from = gene)
+}
+
