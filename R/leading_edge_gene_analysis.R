@@ -92,6 +92,72 @@ plot_gsea_curve <- function(leading_edge_df, title,
   return(p)
 }
 
+
+#' plot_gsea_curve_pretty
+#' 
+#' Given a "leading edge df" and title, 
+#' plots GSEA curve with power = 0, but
+#' prettier than `plot_gsea_curve`
+#' 
+#' @param leading_edge_df dataframe output by get_leading_edge_df
+#' @param title string; title of gene set
+#' @param group_var grouping variable
+#' @param color_palette vector of color characters
+#' @return ggplot
+#' @export
+
+plot_gsea_curve_pretty <- function(leg_df, title = "", 
+                                   group_var, color_palette) { 
+  group_var <- enquo(group_var)
+  print(rlang::as_name(group_var))
+  
+  print("making curve...")
+  curve_plot <- leg_df %>% 
+    filter(in_gs) %>% 
+    ggplot() + 
+    aes(rank, running_es) + 
+    geom_hline(yintercept = 0) + 
+    geom_point(aes(color = !!group_var, shape = !!group_var), 
+               size = 2, alpha = 0.8) + 
+    scale_color_manual(values = color_palette) + 
+    xlim(min(leg_df$rank), max(leg_df$rank)) + 
+    scale_x_continuous(expand=c(0,0)) + 
+    ylab("Running ES") + 
+    theme_classic() + 
+    ggtitle(title) + 
+    theme(panel.background = element_blank(), 
+          panel.border = element_blank(), 
+          plot.background = element_blank(), 
+          axis.line.x = element_blank(), 
+          axis.title.x = element_blank(), 
+          axis.ticks.x = element_blank(), 
+          axis.text.x = element_blank(), 
+          legend.position = "top", 
+          legend.title = element_blank())
+  
+  print("making ticks....")
+  tick_plot <- leg_df %>% 
+    filter(in_gs) %>%  
+    ggplot() + 
+    aes(!!group_var, rank) + 
+    geom_point(shape = '|', size = 3) + 
+    scale_y_continuous(expand=c(0,0)) + 
+    ylim(min(leg_df$rank), max(leg_df$rank)) + 
+    coord_flip() + 
+    theme_classic() + 
+    theme(panel.background = element_blank(), 
+          panel.border = element_blank(), 
+          plot.background = element_blank(), 
+          legend.title = element_blank(), 
+          axis.line = element_blank(), 
+          axis.title.y = element_blank(), 
+          axis.ticks = element_blank(), 
+          axis.text.x = element_blank())
+  
+  plot_grid(curve_plot, tick_plot, rel_heights = c(0.8, 0.2), 
+            ncol = 1, align = "v")
+}
+
 #' plot_top_leg
 #' 
 #' Given a "leading edge df" and title, 
