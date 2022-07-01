@@ -151,26 +151,68 @@ make_galaxy_plot <- function(metadata_df,
 #' 
 #' @param metadata_df data frame with umap coordinates and binary variable
 #' @param binary_var binary variable, must be TRUE/FALSE
+#' @param grouping_strs 
 #' @param umap1 string denoting UMAP_1 (optional; default: UMAP_1)
 #' @param umap2 string denoting UMAP_2 (optional; default: UMAP_2)
+#' @param color_str string denoting the color of detected cells (default: red)
+#' @param pt_size size of points in geom_point (default: 0.5)
+#' @param pt_stroke stroke of points in geom_point (default: 0.1)
+#' @param pt_alpha transparency of points in geom_point (default: 0.5)
+#' @param x_pos x position of count text (default: NA, sets to xmax)
+#' @param y_pos y position of count text (default: NA, sets to ymax)
 #' @return 
 #' @export
 
-plot_binary_on_umap <- function(metadata_df, binary_var, 
-                                umap1 = "UMAP_1", umap2 = "UMAP_2") {
-  binary_var <- enquo(binary_var)
-  count_df <- metadata_df %>% 
-    group_by(!!binary_var, orig.ident) %>% 
+plot_binary_on_umap <- function(metadata_df, binary_var, grouping_strs = NA, 
+                                umap1 = "UMAP_1", umap2 = "UMAP_2", 
+                                color_str = "red", 
+                                pt_size = 0.5, pt_stroke = 0.1, pt_alpha = 0.5, 
+                                x_pos = NA, y_pos = NA) {
+  
+  # group by appropriate variables
+  if (is.na(grouping_strs)) {
+    grouped_df <- metadata_df %>% 
+      group_by(!!binary_var) 
+  
+  } else if (!is.character(grouping_strs)) {
+  
+    stop("grouping_strs must be a character vector")
+  
+  } else if (length(grouping_strs == 1)) {
+  
+    grouped_df <- metadata_df %>% 
+      group_by(!!binary_var, !!sym(grouping_strs)) 
+  
+  } else {
+  
+    grouped_df <- metadata_df %>% 
+      group_by(!!binary_var, !!!syms(grouping_strs))
+  
+  }
+  
+  # calculate the number of cells
+  count_df <- grouped_df %>% 
     summarise(ncells = n(), .groups = "drop")
-  metadata_df %>% 
+  
+  # automatically detect x_pos and y_pos
+  if (is.na(x_pos)) {
+    x_pos <- max(metadata_df[[umap_1]])
+  }
+  if (is.na(y_pos)) {
+    y_pos <- max(metadata_df[[umap_2]])
+  }
+  
+  binary_var <- enquo(binary_var)
+  p <- metadata_df %>% 
     ggplot() + 
     aes_string(umap1, umap2) + 
     aes(color = !!binary_var) + 
-    geom_point(size = 0.5, stroke = 0.1, alpha = 0.5) + 
-    geom_text(aes(x = -8, y = 10 + 2*as.integer(!!binary_var), label = ncells), 
+    geom_point(size = pt_size, stroke = pt_stroke, alpha = pt_alpha) + 
+    geom_text(aes(x = x_pos, y = y_pos + 2*as.integer(!!binary_var), label = ncells), 
               data = count_df) + 
-    coord_fixed() + 
-    scale_color_manual(values = c(`TRUE` = "red", `FALSE` = "grey"))
+    scale_color_manual(values = c(`TRUE` = color_str, `FALSE` = "grey"))
+  
+  return(p)
 }
 
 #' plot_volcano_skeleton

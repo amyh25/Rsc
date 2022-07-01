@@ -7,8 +7,15 @@
 plot_binary_on_umap(
   metadata_df,
   binary_var,
+  grouping_strs = NA,
   umap1 = "UMAP_1",
-  umap2 = "UMAP_2"
+  umap2 = "UMAP_2",
+  color_str = "red",
+  pt_size = 0.5,
+  pt_stroke = 0.1,
+  pt_alpha = 0.5,
+  x_pos = NA,
+  y_pos = NA
 )
 }
 \arguments{
@@ -16,9 +23,23 @@ plot_binary_on_umap(
 
 \item{binary_var}{binary variable, must be TRUE/FALSE}
 
+\item{grouping_strs}{}
+
 \item{umap1}{string denoting UMAP_1 (optional; default: UMAP_1)}
 
 \item{umap2}{string denoting UMAP_2 (optional; default: UMAP_2)}
+
+\item{color_str}{string denoting the color of detected cells (default: red)}
+
+\item{pt_size}{size of points in geom_point (default: 0.5)}
+
+\item{pt_stroke}{stroke of points in geom_point (default: 0.1)}
+
+\item{pt_alpha}{transparency of points in geom_point (default: 0.5)}
+
+\item{x_pos}{x position of count text (default: NA, sets to xmax)}
+
+\item{y_pos}{y position of count text (default: NA, sets to ymax)}
 }
 \value{
 
