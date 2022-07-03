@@ -169,6 +169,8 @@ plot_binary_on_umap <- function(metadata_df, binary_var, grouping_strs = NA,
                                 pt_size = 0.5, pt_stroke = 0.1, pt_alpha = 0.5, 
                                 x_pos = NA, y_pos = NA) {
   
+  binary_var <- enquo(binary_var)
+  
   # group by appropriate variables
   if (is.na(grouping_strs)) {
     grouped_df <- metadata_df %>% 
@@ -202,7 +204,6 @@ plot_binary_on_umap <- function(metadata_df, binary_var, grouping_strs = NA,
     y_pos <- max(metadata_df[[umap_2]])
   }
   
-  binary_var <- enquo(binary_var)
   p <- metadata_df %>% 
     ggplot() + 
     aes_string(umap1, umap2) + 
