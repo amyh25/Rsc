@@ -198,10 +198,10 @@ plot_binary_on_umap <- function(metadata_df, binary_var, grouping_strs = NA,
   
   # automatically detect x_pos and y_pos
   if (is.na(x_pos)) {
-    x_pos <- max(metadata_df[[umap_1]])
+    x_pos <- max(metadata_df[[umap1]])
   }
   if (is.na(y_pos)) {
-    y_pos <- max(metadata_df[[umap_2]])
+    y_pos <- max(metadata_df[[umap2]])
   }
   
   p <- metadata_df %>% 
