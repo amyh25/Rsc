@@ -8,8 +8,6 @@
 #' @param vars list of strings, name of variables of relevant conditions
 #' @return list of pseudobulks (i.e. matrices of aggregated counts)
 #' 
-#' @examples 
-#' pb_list <- make_pseudobulk(so, "RNA_snn_res.0.1", "orig.ident", "genotype")
 #' 
 #' @export
 
