@@ -26,7 +26,7 @@ make_pseudobulk <- function(so, split_var = NULL, sample_var, vars) {
         
   } else {
 
-    groups <- map(sce, ~SummarizedExperiment::colData(..1)[, vars])
+    groups <- map(sce, ~SummarizedExperiment::colData(..1)[, c(sample_var, vars)])
     pb_list <- map2(
       sce, groups, 
       ~Matrix.utils::aggregate.Matrix(
