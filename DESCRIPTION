@@ -2,11 +2,10 @@ Package: Rsc
 Title: Single Cell Helper Functions
 Version: 0.0.0.9000
 Authors@R: 
-    person("Amy", "Huang", , "amy_huang@hms.harvar.edu", role = c("aut", "cre"),
+    person("Amy", "Huang", , "amy_huang@hms.harvard.edu", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -14,11 +13,12 @@ RoxygenNote: 7.1.2
 biocViews:
 Imports:
     tidyverse,
-    SingleCellExperiment, 
-    scater, 
-    Matrix.utils, 
-    DESeq2, 
-    Seurat, 
-    ComplexHeatmap
+    SingleCellExperiment,
+    scater,
+    Matrix.utils,
+    DESeq2,
+    Seurat,
+    ComplexHeatmap,
+    purrr
 Remotes: 
     satijalab/seurat-wrappers
