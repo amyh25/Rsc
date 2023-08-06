@@ -42,7 +42,7 @@ plot_binary_on_umap(
 \item{y_pos}{y position of count text (default: NA, sets to ymax)}
 }
 \value{
-
+a ggplot object
 }
 \description{
 Plots a binary variable on UMAP

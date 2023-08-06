@@ -31,7 +31,7 @@ plot_gene_str(
 \item{pt_size}{point size (optional; default: 0.5)}
 }
 \value{
-
+a ggplot object
 }
 \description{
 Plots genes, with points ordered by expression of gene value

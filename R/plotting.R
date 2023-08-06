@@ -9,7 +9,7 @@
 #' @param nameindex Part of name that you want to plot
 #' @param dim1 PC component on x-axis
 #' @param dim2 PC component on y-axis
-#' @return 
+#' @return a ggplot object
 #' @export
 
 pca_gplot_scale <- function(matrix, sep, nameindex, dim1, dim2){
@@ -37,7 +37,7 @@ pca_gplot_scale <- function(matrix, sep, nameindex, dim1, dim2){
 #' @param UMAP_2 string denoting UMAP_2 (optional; default: UMAP_2)
 #' @param stroke_size stroke size (optional; default: 0.1)
 #' @param pt_size point size (optional; default: 0.5)
-#' @return 
+#' @return a ggplot object
 #' @export
 
 plot_gene_str <- function(gene_str, genes_df, umap_coords, 
@@ -71,7 +71,7 @@ plot_gene_str <- function(gene_str, genes_df, umap_coords,
 #' @param UMAP_2 string denoting UMAP_2 (optional; default: UMAP_2)
 #' @param stroke_size stroke size (optional; default: 0.1)
 #' @param pt_size point size (optional; default: 0.5)
-#' @return 
+#' @return a ggplot object
 #' @export
 
 plot_gene <- function(gene, genes_df, umap_coords, join_col_str = "cell", 
@@ -100,7 +100,7 @@ plot_gene <- function(gene, genes_df, umap_coords, join_col_str = "cell",
 #' @param UMAP_2 string denoting UMAP_2 (optional; default: UMAP_2)
 #' @param stroke_size stroke size (optional; default: 0.1)
 #' @param pt_size point size (optional; default: 0.5)
-#' @return 
+#' @return a ggplot object
 #' @export
 
 make_umap_skeleton <- function(metadata_df, 
@@ -115,34 +115,6 @@ make_umap_skeleton <- function(metadata_df,
     coord_fixed() + 
     guides(color = guide_legend(override.aes = list(size = 3)))
   
-}
-
-
-#' make_galaxy_plot
-#' 
-#' Makes galaxy plot
-#' 
-#' @param metadata_df data frame with umap coordinates
-#' @param sample_n number of cells to downsample to (optional; default: 800)
-#' @param umap1 string denoting UMAP_1 (optional; default: UMAP_1)
-#' @param umap2 string denoting UMAP_2 (optional; default: UMAP_2)
-#' @return 
-#' @export
-
-make_galaxy_plot <- function(metadata_df, 
-                             sample_n = 800, 
-                             umap1 = "UMAP_1", umap2 = "UMAP_2") {
-  if (sample_n != 0)
-    data_sampled <- slice_sample(metadata_df, n = sample_n)
-  retplot <- ggplot(metadata_df) +
-    aes_string(umap1, umap2) + 
-    stat_density_2d(aes(fill = ..density..), geom = 'raster', contour = FALSE) +
-    scale_fill_viridis(option = "magma") +
-    coord_cartesian(expand = FALSE, xlim = c(min(metadata_df[[umap1]]), max(metadata_df[[umap1]])),
-                    ylim = c(min(metadata_df[[umap2]]), max(metadata_df[[umap2]]))) 
-  if (sample_n != 0) 
-    retplot <- retplot + geom_point(shape = '.', col = 'white', data = data_sampled)
-  return(retplot)
 }
 
 #' plot_binary_on_umap
@@ -160,7 +132,7 @@ make_galaxy_plot <- function(metadata_df,
 #' @param pt_alpha transparency of points in geom_point (default: 0.5)
 #' @param x_pos x position of count text (default: NA, sets to xmax)
 #' @param y_pos y position of count text (default: NA, sets to ymax)
-#' @return 
+#' @return a ggplot object
 #' @export
 
 plot_binary_on_umap <- function(metadata_df, binary_var, grouping_strs = NA, 

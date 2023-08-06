@@ -24,7 +24,7 @@ make_umap_skeleton(
 \item{.data}{data frame with umap coordinates}
 }
 \value{
-
+a ggplot object
 }
 \description{
 Creates umap skeleton from data frame

@@ -109,9 +109,9 @@ plot_gsea_curve <- function(leading_edge_df, title,
 plot_gsea_curve_pretty <- function(leg_df, title = "", 
                                    group_var, color_palette) { 
   group_var <- enquo(group_var)
-  print(rlang::as_name(group_var))
+  message(rlang::as_name(group_var))
   
-  print("making curve...")
+  message("making curve...")
   curve_plot <- leg_df %>% 
     filter(in_gs) %>% 
     ggplot() + 
@@ -135,7 +135,7 @@ plot_gsea_curve_pretty <- function(leg_df, title = "",
           legend.position = "top", 
           legend.title = element_blank())
   
-  print("making ticks....")
+  message("making ticks....")
   tick_plot <- leg_df %>% 
     filter(in_gs) %>%  
     ggplot() + 
@@ -155,7 +155,7 @@ plot_gsea_curve_pretty <- function(leg_df, title = "",
           axis.text.x = element_blank())
   
   plot_grid(curve_plot, tick_plot, rel_heights = c(0.8, 0.2), 
-            ncol = 1, align = "v")
+            ncol = 1, align = "v", axis = "tblr")
 }
 
 #' plot_top_leg

@@ -18,7 +18,7 @@ pca_gplot_scale(matrix, sep, nameindex, dim1, dim2)
 \item{dim2}{PC component on y-axis}
 }
 \value{
-
+a ggplot object
 }
 \description{
 Plots PCA given a matrix with column names of variables
