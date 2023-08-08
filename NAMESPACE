@@ -2,6 +2,7 @@
 
 export(add_mito_and_ribo)
 export(add_pseudotime_metadata)
+export(calculate_proportion)
 export(get_gene_expr_from_so)
 export(get_leading_edge_df)
 export(make_pseudobulk)

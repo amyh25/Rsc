@@ -5,6 +5,7 @@
 #' @param var2 second grouping variable
 #' 
 #' @return tibble with proportions
+#' @export
 
 calculate_proportion <- function(.tbl, var1, var2) {
   var1 <- enquo(var1)
