@@ -50,10 +50,20 @@ add_mito_and_ribo <- function(seurat, prefix = "percent.") {
 #' @param so Seurat object
 #' @param gene_vec character vector of gene names
 #' @param assay assay to pull data from (optional; default:"RNA")
+#' @param skip_missing bool, whether or not to skip missing genes. If true, will error
 #' @return tibble of gene expression per cell
 #' @export
 
-get_gene_expr_from_so <- function(so, gene_vec, assay = "RNA") {
+get_gene_expr_from_so <- function(so, gene_vec, assay = "RNA", skip_missing = FALSE) {
+  if (!all_of(gene_vec %in% rownames(so))) {
+    missing_genes <- gene_vec[!(gene_vec %in% rownames(so))]
+    if (skip_missing) {
+      message(paste0(missing_genes, " not found. Skipping..."))
+      gene_vec <- gene_vec[gene_vec %in% rownames(so)]
+    } else {
+      stop(paste0(missing_genes, " not found. Please remove. "))
+    }
+  }
   so@assays[[assay]]@data %>% 
     .[rownames(.) %in% gene_vec,] %>% 
     as.matrix() %>% 

@@ -4,7 +4,7 @@
 \alias{get_gene_expr_from_so}
 \title{get_gene_expr_from_so}
 \usage{
-get_gene_expr_from_so(so, gene_vec, assay = "RNA")
+get_gene_expr_from_so(so, gene_vec, assay = "RNA", skip_missing = FALSE)
 }
 \arguments{
 \item{so}{Seurat object}
@@ -12,6 +12,8 @@ get_gene_expr_from_so(so, gene_vec, assay = "RNA")
 \item{gene_vec}{character vector of gene names}
 
 \item{assay}{assay to pull data from (optional; default:"RNA")}
+
+\item{skip_missing}{bool, whether or not to skip missing genes. If true, will error}
 }
 \value{
 tibble of gene expression per cell
