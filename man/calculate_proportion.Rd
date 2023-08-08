@@ -4,24 +4,18 @@
 \alias{calculate_proportion}
 \title{calculate_proportion}
 \usage{
-calculate_proportion(.data, var, norm_var)
+calculate_proportion(.tbl, var1, var2)
 }
 \arguments{
-\item{.data}{input data frame, where each row is an observation}
+\item{.tbl}{input data table}
 
-\item{var}{grouping var (for Seurat metadata, usually \code{clustering})}
+\item{var1}{first grouping variable, typically \code{sample_ID}}
 
-\item{norm_var}{var to normalize against (for Seurat metadata, usually \code{orig.ident})}
+\item{var2}{second grouping variable}
 }
 \value{
-tibble with proportion and normalized proportion
+tibble with proportions
 }
 \description{
-Calculate the proportion and normalized proportion of entries
-represented within a given group
-}
-\details{
-Example: metadata \%>\%
-calculate_proportion(clustering, orig.ident) \%>\%
-plot_prop(clustering, orig.ident)
+calculate_proportion
 }

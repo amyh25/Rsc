@@ -1,29 +1,37 @@
 #' calculate_proportion
+#'  
+#' @param .tbl input data table
+#' @param var1 first grouping variable, typically `sample_ID`
+#' @param var2 second grouping variable
 #' 
-#' Calculate the proportion and normalized proportion of entries
-#' represented within a given group
-#' 
-#' Example: metadata %>% 
-#' calculate_proportion(clustering, orig.ident) %>% 
-#' plot_prop(clustering, orig.ident)
-#' 
-#' @param .data input data frame, where each row is an observation
-#' @param var grouping var (for Seurat metadata, usually `clustering`)
-#' @param norm_var var to normalize against (for Seurat metadata, usually `orig.ident`)
-#' @return tibble with proportion and normalized proportion
-#' @export
+#' @return tibble with proportions
 
-calculate_proportion <- function(.data, var, norm_var) {
-  var <- enquo(var)
-  norm_var <- enquo(norm_var)
-  .data %>% 
-    group_by(!!var, !!norm_var) %>% 
-    summarise(count = n()) %>% 
-    group_by(!!norm_var) %>% 
-    mutate(total = sum(count), prop = count / total) %>% 
-    group_by(!!var) %>% 
-    mutate(total_prop = sum(prop), norm_prop = prop / total_prop) 
+calculate_proportion <- function(.tbl, var1, var2) {
+  var1 <- enquo(var1)
+  var2 <- enquo(var2)
+  
+  propr_df <- .tbl %>% 
+    group_by(!!var1, !!var2) %>% 
+    count() %>% 
+    group_by(!!var1) %>% 
+    mutate(total = sum(n), prop = n / total) %>% 
+    ungroup() 
+  propr_df %>% 
+    pivot_wider(id_cols = !!var1, 
+                names_from = !!var2, 
+                values_from = prop, 
+                values_fill = 0) %>% 
+    pivot_longer(cols = 2:ncol(.), 
+                 names_to = rlang::as_name(var2), 
+                 values_to = "prop") %>% 
+    left_join(unique(select(propr_df, !!var1, total)), 
+              by = rlang::as_name(var1)) %>% 
+    left_join(select(propr_df, !!var1, !!var2, n),
+              by = c(rlang::as_name(var1),
+                     rlang::as_name(var2))) %>%
+    mutate(n = ifelse(is.na(n), 0, n))
 }
+
 
 #' plot_prop
 #' 
