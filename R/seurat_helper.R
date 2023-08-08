@@ -55,7 +55,7 @@ add_mito_and_ribo <- function(seurat, prefix = "percent.") {
 #' @export
 
 get_gene_expr_from_so <- function(so, gene_vec, assay = "RNA", skip_missing = FALSE) {
-  if (!all_of(gene_vec %in% rownames(so))) {
+  if (sum(gene_vec %in% rownames(so)) == length(gene_vec)) {
     missing_genes <- gene_vec[!(gene_vec %in% rownames(so))]
     if (skip_missing) {
       message(paste0(missing_genes, " not found. Skipping..."))
