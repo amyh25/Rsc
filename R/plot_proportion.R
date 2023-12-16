@@ -13,7 +13,7 @@ calculate_proportion <- function(.tbl, var1, var2) {
   
   propr_df <- .tbl %>% 
     group_by(!!var1, !!var2) %>% 
-    count() %>% 
+    dplyr::count() %>% 
     group_by(!!var1) %>% 
     mutate(total = sum(n), prop = n / total) %>% 
     ungroup() 
